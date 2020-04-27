@@ -28,6 +28,8 @@ import (
 // A Selector is the input used to define proposers and members of voting
 // committees.
 type selector struct {
+	_struct struct{} `codec:""` // not omitempty
+
 	Seed   committee.Seed `codec:"seed"`
 	Round  basics.Round   `codec:"rnd"`
 	Period period         `codec:"per"`
@@ -36,7 +38,7 @@ type selector struct {
 
 // ToBeHashed implements the crypto.Hashable interface.
 func (sel selector) ToBeHashed() (protocol.HashID, []byte) {
-	return protocol.AgreementSelector, protocol.Encode(sel)
+	return protocol.AgreementSelector, protocol.Encode(&sel)
 }
 
 // CommitteeSize returns the size of the committee, which is determined by
